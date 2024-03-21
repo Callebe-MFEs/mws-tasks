@@ -1,5 +1,29 @@
+:host {
+  display: block;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .mws-tasks-app {
   border: 1px solid orange;
-  margin: 0;
   padding: 10px;
+
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+
+  max-width: 1024px;
+  margin: 0 auto;
+
+  > #outlet {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: auto;
+  }
 }
