@@ -2,6 +2,7 @@ import { LitElement, PropertyValueMap, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import style from "./app.style.scss";
 import { Task, TasksServices } from "./tasks.service";
+import { getRouter } from "../router";
 
 @customElement("mws-task-details")
 export class MWSTaskDetailsComponent extends LitElement {
@@ -43,7 +44,7 @@ export class MWSTaskDetailsComponent extends LitElement {
           </label>
         </div>
 
-        <a href="../">Go back</a>
+        <a href=${getRouter().urlForName("mws-tasks-list")}>Go back</a>
       </div>
     `;
   }

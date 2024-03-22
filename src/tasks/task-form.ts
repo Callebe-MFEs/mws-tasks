@@ -4,6 +4,7 @@ import style from "./app.style.scss";
 import { Task, TasksServices } from "./tasks.service";
 import { stat } from "fs";
 import { Router } from "@vaadin/router";
+import { getRouter } from "../router";
 
 @customElement("mws-task-form")
 export class MWSTaskFormComponent extends LitElement {
@@ -35,7 +36,10 @@ export class MWSTaskFormComponent extends LitElement {
   submit(e: Event) {
     e.preventDefault();
     TasksServices.instance.saveTask(this.task);
-    Router.go(`./${this.task.id}`);
+    const router = getRouter();
+    Router.go(
+      router.urlForName("mws-task-details", { taskId: `${this.task.id}` })
+    );
   }
 
   render() {

@@ -2,6 +2,7 @@ import { LitElement, css, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import style from "./app.style.scss";
 import { TasksServices } from "./tasks.service";
+import { getRouter } from "../router";
 
 @customElement("mws-tasks-list")
 export class MWSTasksListComponent extends LitElement {
@@ -16,10 +17,11 @@ export class MWSTasksListComponent extends LitElement {
   ];
 
   render() {
+    const router = getRouter();
     return html`
       <div>
         <h2>Tasks List</h2>
-        <div><a href="./edit">New Task</a></div>
+        <div><a href=${router.urlForName("mws-task-form")}>New Task</a></div>
         <table>
           <thead>
             <tr>
@@ -36,7 +38,20 @@ export class MWSTasksListComponent extends LitElement {
                   <td>${task.id}</td>
                   <td>${task.name}</td>
                   <td>${task.description}</td>
-                  <td><a href=${`./edit/${task.id}`}>Edit</a></td>
+                  <td>
+                    <a
+                      href=${router.urlForName("mws-task-form", {
+                        taskId: `${task.id}`,
+                      })}
+                      >Edit</a
+                    >
+                    <a
+                      href=${router.urlForName("mws-task-details", {
+                        taskId: `${task.id}`,
+                      })}
+                      >View</a
+                    >
+                  </td>
                 </tr>
               `
             )}

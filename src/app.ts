@@ -1,7 +1,7 @@
 import { LitElement, PropertyValueMap, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import style from "./app.style.scss";
-import { Router } from "@vaadin/router";
+import { getRouter, newRouter } from "./router";
 
 @customElement("mws-tasks-app")
 export class MWSTasksAppComponent extends LitElement {
@@ -14,15 +14,23 @@ export class MWSTasksAppComponent extends LitElement {
     _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
   ): void {
     super.firstUpdated(_changedProperties);
-    const router = new Router(this.shadowRoot.querySelector("#outlet"));
+    const router = newRouter(this.shadowRoot.querySelector("#outlet"));
 
     router.setRoutes([
       {
         path: `${this.basepath || "/"}`,
         children: () => import("./tasks").then((module) => module.routes),
       },
-      { path: "(.*)", component: "div" },
+      {
+        path: "(.*)",
+        component: "div",
+      },
     ]);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    getRouter().unsubscribe();
   }
 
   render() {
