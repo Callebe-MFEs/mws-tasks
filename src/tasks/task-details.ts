@@ -1,12 +1,34 @@
-import { LitElement, PropertyValueMap, html } from "lit";
+import { PropertyValueMap, css, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import style from "./app.style.scss";
 import { Task, TasksServices } from "./tasks.service";
 import { getRouter } from "../router";
+import { RouteComponent } from "../route.component";
 
 @customElement("mws-task-details")
-export class MWSTaskDetailsComponent extends LitElement {
-  // static styles = [style];
+export class MWSTaskDetailsComponent extends RouteComponent {
+  static styles = [
+    css`
+      .field {
+        margin: 10px 0;
+      }
+
+      .label {
+        display: inline-block;
+        width: 90px;
+        text-align: right;
+        font-weight: bold;
+      }
+
+      .value {
+        display: inline-block;
+      }
+
+      button {
+        padding: 10px;
+        line-height: 100%;
+      }
+    `,
+  ];
 
   @property({ type: Number })
   set taskId(id: number) {
@@ -35,16 +57,16 @@ export class MWSTaskDetailsComponent extends LitElement {
     return html`
       <div>
         <h2>Task - ${this.task.name}</h2>
-        <div>
-          <label>Name: ${this.task.name} </label>
+        <div class="field">
+          <span class="label">Name:</span>
+          <span class="value">${this.task.name}</span>
         </div>
-        <div>
-          <label for="description"
-            >Description: ${this.task?.description}
-          </label>
+        <div class="field">
+          <span class="label">Description:</span>
+          <span class="value">${this.task?.description}</span>
         </div>
 
-        <a href=${getRouter().urlForName("mws-tasks-list")}>Go back</a>
+        <a href=${this.router.urlForName("mws-tasks-list")}>Go back</a>
       </div>
     `;
   }

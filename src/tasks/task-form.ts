@@ -1,14 +1,39 @@
-import { LitElement, PropertyValueMap, html } from "lit";
+import { PropertyValueMap, css, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import style from "./app.style.scss";
 import { Task, TasksServices } from "./tasks.service";
-import { stat } from "fs";
 import { Router } from "@vaadin/router";
-import { getRouter } from "../router";
+import { RouteComponent } from "../route.component";
 
 @customElement("mws-task-form")
-export class MWSTaskFormComponent extends LitElement {
-  // static styles = [style];
+export class MWSTaskFormComponent extends RouteComponent {
+  static styles = [
+    css`
+      input,
+      textarea {
+        padding: 10px;
+      }
+
+      textarea {
+        vertical-align: top;
+      }
+
+      label {
+        display: inline-block;
+        margin: 10px 0;
+      }
+
+      label span {
+        display: inline-block;
+        width: 90px;
+        text-align: right;
+      }
+
+      button {
+        padding: 10px;
+        line-height: 100%;
+      }
+    `,
+  ];
 
   @property({ type: Number })
   set taskId(id: number) {
@@ -36,9 +61,8 @@ export class MWSTaskFormComponent extends LitElement {
   submit(e: Event) {
     e.preventDefault();
     TasksServices.instance.saveTask(this.task);
-    const router = getRouter();
     Router.go(
-      router.urlForName("mws-task-details", { taskId: `${this.task.id}` })
+      this.router.urlForName("mws-task-details", { taskId: `${this.task.id}` })
     );
   }
 
@@ -48,14 +72,16 @@ export class MWSTaskFormComponent extends LitElement {
         <h2>${this.task.id ? `Task - ${this.task.name}` : "New Task"}</h2>
         <form @submit=${this.submit}>
           <div>
-            <label for="name">Name: 
+            <label for="name">
+              <span>Name:</span> 
               <input type="text" id="name" name="name" value="${
                 this.task.name
               }" @change=${(e) => (this.task.name = e.target.value)} />
             </label>
           </div>
           <div>
-            <label for="description">Description: 
+            <label for="description">
+              <span>Description:</span> 
             <textarea id="description" name="description" @change=${(e) =>
               (this.task.description = e.target.value.trim())}>${
       this.task?.description

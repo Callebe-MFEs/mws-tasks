@@ -36,12 +36,6 @@ export class MWSTasksAppComponent extends LitElement {
   render() {
     return html`
       <div class="mws-tasks-app">
-        <!-- <nav>
-          <a href="${this.basepath}/">Tasks</a>
-          <a href="${this.basepath}/edit">Task new</a>
-          <a href="${this.basepath}/123">Task 123</a>
-          <a href="${this.basepath}/edit/123">Task edit 123</a>
-        </nav> -->
         <div id="outlet"></div>
       </div>
     `;
